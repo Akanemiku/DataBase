@@ -1,0 +1,13 @@
+--创建数据库bookstore
+create database bookstore
+--当前数据库
+use bookstore
+--创建表userInfo
+create table userInfo(	
+	userID int primary key,
+	userName varchar(20) not null unique,
+	sex char(2) not null
+)
+--添加约束
+alter table userInfo 
+	add check(userID>0)
