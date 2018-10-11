@@ -1,0 +1,38 @@
+create database bookstore
+use bookstore
+create table userInfo(
+	userID int primary key,
+	userName varchar(20) not null unique,
+	sex varchar(2) not null check(sex='男' or sex='女'),
+	password varchar(8) not null,
+	brithdate datetime null,
+	userState varchar(20) not null check(userState = '正常使用' or 
+							userState = '锁定' or userState = '停用'),
+)
+create table category(
+	categoryID int primary key,
+	categoryName varchar(40) not null,
+	description varchar(250) null
+)
+create table book(
+	bookID int primary key,
+	title varchar(50) not null,
+	author varchar(50) not null,
+	press varchar(80) not null,
+	categoryID int not null foreign key references category(categoryID),
+	stockAmount int not null
+)
+create table orderInfo(
+	orderID int primary key,
+	userID int foreign key references userInfo(userID),
+	payment numeric(17,2) null,
+	orderTime Datetime not null,
+	orderState varchar(20) check(orderState = '未提交' or orderState = '已提交'
+	or orderState = '已支付' or orderState = '已完成')
+)
+create table orderBook(
+	orderID int foreign key references orderInfo(orderID),
+	bookID int foreign key references book(BookId),
+	quantity int not null,
+	primary key(orderID,bookID)
+)
