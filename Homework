@@ -1,5 +1,8 @@
 create database bookstore
 use bookstore
+
+--第一题
+--创建userInfo表
 create table userInfo(
 	userID int primary key,
 	userName varchar(20) not null unique,
@@ -9,19 +12,23 @@ create table userInfo(
 	userState varchar(20) not null check(userState = '正常使用' or 
 							userState = '锁定' or userState = '停用'),
 )
+--创建category表
 create table category(
 	categoryID int primary key,
 	categoryName varchar(40) not null,
 	description varchar(250) null
 )
+--创建book表
 create table book(
 	bookID int primary key,
 	title varchar(50) not null,
 	author varchar(50) not null,
 	press varchar(80) not null,
+	price numeric(17,2) not null,
 	categoryID int not null foreign key references category(categoryID),
 	stockAmount int not null
 )
+--创建orderInfo表
 create table orderInfo(
 	orderID int primary key,
 	userID int foreign key references userInfo(userID),
@@ -30,9 +37,75 @@ create table orderInfo(
 	orderState varchar(20) check(orderState = '未提交' or orderState = '已提交'
 	or orderState = '已支付' or orderState = '已完成')
 )
+--创建orderBook表
 create table orderBook(
 	orderID int foreign key references orderInfo(orderID),
 	bookID int foreign key references book(BookId),
 	quantity int not null,
 	primary key(orderID,bookID)
 )
+
+--第二题
+alter table book add check(stockAmount>0)
+alter table orderBook add default(1) for quantity 
+alter table orderBook add check(quantity>0)
+alter table userInfo add unique(userName)
+
+--第三题
+
+--插入userInfo数据
+insert into userInfo values(101,'张三','男',101,'1993-8-19','正常使用')
+,(102,'王丽','女',102,'1984-2-18','正常使用')
+,(103,'李明','男',103,'1996-6-15','正常使用')
+,(104,'张艳丽','女',104,'1993-12-3','锁定')
+,(105,'刘大海','男',105,'1999-7-26','停用')
+
+--插入category数据
+insert into category values
+(1,'理工类','自然科学、工程技术等')
+,(2,'人文社科类','哲学、经济、教育学等')
+
+--插入book数据
+insert into book values
+(1001,'数据库系统原理','王珊','高等教育出版社',39,1,200)
+,(1002,'数据结构C语言版','严蔚敏','清华大学出版社',35,1,250)
+,(1003,'计算机网络','谢希仁','电子工业出版社',39,1,50)
+,(1004,'经济学原理','曼昆','清华大学 出版社',64,2,25)
+,(1005,'中国哲学简史','冯友兰','北京大学出版社',38,2,10)
+,(1006,'教育心理学','莫雷','教学科学出版社',36,2,180)
+
+--插入orderInfo数据
+insert into orderInfo values
+(2016001,101,109.00,'2016/8/1 7:56:32','已完成'),
+(2016002,102,138.00,'2016/8/3 8:34:38','已完成'),
+(2016003,102,143.00,'2016/8/3 21:34:53','已提交'),
+(2016004,102,117.00,'2016/8/7 8:50:29','未提交'),
+(2016005,103,117.00,'2016/8/8 15:50:28','已支付'),
+(2016006,103,73.00,'2016/8/8 23:28:28','已完成'),
+(2016007,104,175.00,'2016/8/9 12:50:33','已完成')
+
+--插入orderBook数据
+insert into orderBook values
+(2016001,1001,1),
+(2016001,1002,2),
+(2016002,1004,1),
+(2016002,1005,1),
+(2016002,1006,1),
+(2016003,1002,1),
+(2016003,1006,3),
+(2016004,1001,2),
+(2016004,1003,1),
+(2016005,1001,2),
+(2016005,1003,1),
+(2016006,1002,1),
+(2016006,1005,1),
+(2016007,1001,1),
+(2016007,1004,1),
+(2016007,1006,2)
+
+--第四题
+--（1）
+create clustered index IX_user_name on userInfo(userName)
+--不能。每个表只能有一个聚簇索引，因为一个表中的记录只能以一种物理顺序存放
+--（2）
+--可以，需重新输入select语句查找orderState，数据会进行排序，排序结果由主键主导。非聚簇索引不能按序存放，需额外消耗资源来排序
