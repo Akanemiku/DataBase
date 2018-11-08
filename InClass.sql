@@ -53,3 +53,16 @@ and not exists(select * from orderInfo C2,orderBook C3
 where C2.orderID = C3.orderID
 and C2.userID = A1.userID 
 and C3.bookID = B3.bookID))
+
+--触发器
+create trigger tg1
+	on orderBook
+	after insert
+as
+	begin
+		declare @num int
+		select @num = quantity from inserted
+		update book set stockAmount = stockAmount - @num
+			where bookID in
+			(select bookID from inserted)
+	end
