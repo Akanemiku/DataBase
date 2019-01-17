@@ -17,6 +17,7 @@
 * https://blog.csdn.net/duyusean/article/details/52625361
 * https://zhidao.baidu.com/question/430120750.html
 * https://blog.csdn.net/prdslf001001/article/details/80336835
+* https://www.cnblogs.com/ktao/p/7775100.html
 
 ## 数据库设计
 ### 作品范例
@@ -32,3 +33,7 @@
 * https://wenku.baidu.com/view/05e1c5720a1c59eef8c75fbfc77da26925c5968c.html?from=search
 * https://wenku.baidu.com/view/7b741fdb0722192e4436f665.html?from=search
 * https://wenku.baidu.com/view/ae4b128adb38376baf1ffc4ffe4733687e21fc23.html?from=search
+
+## 期末复习
+* https://wenku.baidu.com/view/f1b120e50342a8956bec0975f46527d3240ca6e9.html?from=search
+* https://wenku.baidu.com/view/82d29aae5ebfc77da26925c52cc58bd6318693f7.html?from=search
